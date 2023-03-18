@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ShopProject.Models.CarsCategories;
 
 namespace ShopProject.Models
 {
