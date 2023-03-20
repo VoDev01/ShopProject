@@ -15,6 +15,7 @@ namespace ShopProject.Models
         public int Price { get; set; } = 0;
         public bool IsFavorite { get; set; }
         public bool IsAvailable { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
+        public ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }

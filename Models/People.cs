@@ -6,11 +6,13 @@ namespace ShopProject.Models
     {
         [Key]
         public int Id { get; set; }
+        public int OrderID { get; set; }
+        public Orders Orders { get; set; }
         [Required]
         [StringLength(20)]
         public string Name { get; set; }
         [Range(0,20)]
-        public string Surname { get; set; }
+        public string? Surname { get; set; }
         [Required]
         [StringLength(50)]
         [RegularExpression(@"^[a-zA-Z0-9_\.-]+\@[\da-z-]+\.[a-z]{2,5}\s")]
