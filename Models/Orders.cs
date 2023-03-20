@@ -7,8 +7,9 @@ namespace ShopProject.Models
     {
         [Key]
         public int Id { get; set; }
-        public DateTime DateTime { get; set; } = DateTime.Now;
-        public ICollection<People> People { get; set; }
+        public int CustomerID { get; set; }
+        public People People { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.Now;
         public ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }

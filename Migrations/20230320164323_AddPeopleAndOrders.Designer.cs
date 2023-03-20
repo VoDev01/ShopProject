@@ -12,7 +12,7 @@ using ShopProject.Data;
 namespace ShopProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230320132712_AddPeopleAndOrders")]
+    [Migration("20230320164323_AddPeopleAndOrders")]
     partial class AddPeopleAndOrders
     {
         /// <inheritdoc />
@@ -123,10 +123,15 @@ namespace ShopProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateTime")
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Orders");
                 });
@@ -154,9 +159,6 @@ namespace ShopProject.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("OrderID")
-                        .HasColumnType("int");
-
                     b.Property<string>("PhoneNum")
                         .IsRequired()
                         .HasMaxLength(15)
@@ -166,8 +168,6 @@ namespace ShopProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderID");
 
                     b.ToTable("Peoples");
                 });
@@ -234,15 +234,15 @@ namespace ShopProject.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("ShopProject.Models.People", b =>
+            modelBuilder.Entity("ShopProject.Models.Orders", b =>
                 {
-                    b.HasOne("ShopProject.Models.Orders", "Orders")
-                        .WithMany("People")
-                        .HasForeignKey("OrderID")
+                    b.HasOne("ShopProject.Models.People", "People")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Orders");
+                    b.Navigation("People");
                 });
 
             modelBuilder.Entity("ShopProject.Models.Car", b =>
@@ -253,8 +253,11 @@ namespace ShopProject.Migrations
             modelBuilder.Entity("ShopProject.Models.Orders", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
 
-                    b.Navigation("People");
+            modelBuilder.Entity("ShopProject.Models.People", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

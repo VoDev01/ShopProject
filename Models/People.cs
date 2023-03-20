@@ -6,8 +6,6 @@ namespace ShopProject.Models
     {
         [Key]
         public int Id { get; set; }
-        public int OrderID { get; set; }
-        public Orders Orders { get; set; }
         [Required]
         [StringLength(20)]
         public string Name { get; set; }
@@ -24,5 +22,6 @@ namespace ShopProject.Models
         [Required]
         [StringLength(75)]
         public string Adress { get; set; }
+        public ICollection<Orders> Orders { get; set; }
     }
 }

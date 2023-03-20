@@ -24,10 +24,10 @@ namespace ShopProject.Data
                 .HasValue<ICECategory>("Internal Combustion Engine")
                 .HasValue<ElectricCategory>("Electric Engine");
 
-            modelBuilder.Entity<People>()
-                .HasOne<Orders>(p => p.Orders)
-                .WithMany(o => o.People)
-                .HasForeignKey(p => p.OrderID);
+            modelBuilder.Entity<Orders>()
+                .HasOne<People>(p => p.People)
+                .WithMany(o => o.Orders)
+                .HasForeignKey(o => o.CustomerID);
 
             modelBuilder.Entity<OrderDetails>().HasKey(od => new { od.OrdersID, od.CarsID });
             modelBuilder.Entity<OrderDetails>()
