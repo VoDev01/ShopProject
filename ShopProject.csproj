@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>85855ce8-aff4-431d-aa0e-eda018acaa04</UserSecretsId>
+    <ApplicationIcon>wwwroot\shop_ico.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

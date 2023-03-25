@@ -12,8 +12,8 @@ using ShopProject.Data;
 namespace ShopProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230320164323_AddPeopleAndOrders")]
-    partial class AddPeopleAndOrders
+    [Migration("20230325151956_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,14 +79,8 @@ namespace ShopProject.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EngineSpinningMoment")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("_DrivetrainType")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -176,30 +170,12 @@ namespace ShopProject.Migrations
                 {
                     b.HasBaseType("ShopProject.Models.CarsCategories.Category");
 
-                    b.Property<int>("BatteryCapacity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BatteryDrainage")
-                        .HasColumnType("int");
-
                     b.HasDiscriminator().HasValue("Electric Engine");
                 });
 
             modelBuilder.Entity("ShopProject.Models.CarsCategories.ICECategory", b =>
                 {
                     b.HasBaseType("ShopProject.Models.CarsCategories.Category");
-
-                    b.Property<int>("EngineCapacity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PistonCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TankCapacity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("_EngineType")
-                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Internal Combustion Engine");
                 });

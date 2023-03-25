@@ -1,13 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ShopProject.Data;
+using Microsoft.AspNetCore.Mvc;
+using ShopProject.Models;
 
 namespace ShopProject.Controllers
 {
     public class CarsController : Controller
     {
+        private readonly ApplicationDbContext db;
 
-        public IActionResult Index()
+        public CarsController(ApplicationDbContext db)
         {
-            return View();
+            this.db = db;
+        }
+
+        public IActionResult List()
+        {
+            List<Car> objCarList = db.Cars.ToList();
+            return View(objCarList);
         }
     }
 }

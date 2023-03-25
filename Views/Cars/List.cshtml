@@ -1,0 +1,30 @@
+﻿@model List<Car> 
+@{
+    ViewData["Title"] = "List";
+}
+<style type="text/css">
+    #purchase_button{
+        color: #fff;
+        border-color: #fff;
+        background-color: #292;
+    }
+    #purchase_button:hover{
+        color: #000;
+        border-color: #000;
+        background-color: #e11;
+    }
+</style>
+<h1>Каталог машин</h1>
+
+<div class="row mt-5 mb-2">
+    @foreach(var obj in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <h2>@obj.Name</h2>
+            <img src="@obj.Image" alt="@obj.Name" width="400" height="300">
+            <p>@obj.Description</p>
+            <p id="car_price">Цена: @obj.Price&#8381;</p>
+            <a class="btn" id="purchase_button" href="#">Добавить в корзину</a>
+        </div>
+    }
+</div>
