@@ -15,7 +15,7 @@ namespace ShopProject.Data
         public DbSet<ICECategory> ICECategories { get; set; }
         public DbSet<ElectricCategory> ElectricCategories { get; set; }
         public DbSet<People> Peoples { get; set; }
-        public DbSet<Orders> Orders { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,20 +24,39 @@ namespace ShopProject.Data
                 .HasValue<ICECategory>("Internal Combustion Engine")
                 .HasValue<ElectricCategory>("Electric Engine");
 
-            modelBuilder.Entity<Orders>()
+            modelBuilder.Entity<Order>()
                 .HasOne<People>(p => p.People)
                 .WithMany(o => o.Orders)
                 .HasForeignKey(o => o.CustomerID);
 
-            modelBuilder.Entity<OrderDetails>().HasKey(od => new { od.OrdersID, od.CarsID });
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.Cars)
+                .WithMany(c => c.Orders)
+                .UsingEntity<OrderDetails>(
+                    j => j
+                    .HasOne(od => od.Cars)
+                    .WithMany(o => o.OrderDetails)
+                    .HasForeignKey(od => od.CarsID),
+                    j => j
+                     .HasOne(od => od.Orders)
+                     .WithMany(c => c.OrderDetails)
+                     .HasForeignKey(od => od.OrdersID),
+                    j =>
+                    {
+                        j.Property(od => od.Amount).HasDefaultValue(1);
+                        j.HasKey(k => new { k.OrdersID, k.CarsID });
+                        j.ToTable("OrderDetails");
+                    });
+
+            /*modelBuilder.Entity<OrderDetails>().HasKey(od => new { od.OrdersID, od.CarsID });
             modelBuilder.Entity<OrderDetails>()
-                .HasOne<Orders>(od => od.Orders)
+                .HasOne<Order>(od => od.Orders)
                 .WithMany(o => o.OrderDetails)
                 .HasForeignKey(od => od.OrdersID);
             modelBuilder.Entity<OrderDetails>()
                 .HasOne<Car>(od => od.Cars)
                 .WithMany(c => c.OrderDetails)
-                .HasForeignKey(od => od.CarsID);
+                .HasForeignKey(od => od.CarsID);*/
 
             base.OnModelCreating(modelBuilder);
         }

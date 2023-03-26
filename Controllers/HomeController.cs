@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShopProject.Data;
 using ShopProject.Models;
 using System.Diagnostics;
 
@@ -6,16 +7,19 @@ namespace ShopProject.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext db;
+        private readonly ILogger<HomeController> logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.db = db;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<Car> carObjList = db.Cars.ToList();
+            return View(carObjList);
         }
 
         public IActionResult Privacy()

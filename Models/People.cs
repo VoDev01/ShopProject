@@ -10,7 +10,7 @@ namespace ShopProject.Models
         [StringLength(20)]
         public string Name { get; set; }
         [Range(0,20)]
-        public string? Surname { get; set; }
+        public string Surname { get; set; }
         [Required]
         [StringLength(50)]
         [RegularExpression(@"^[a-zA-Z0-9_\.-]+\@[\da-z-]+\.[a-z]{2,5}\s")]
@@ -18,10 +18,10 @@ namespace ShopProject.Models
         [Required]
         [StringLength(15)]
         [RegularExpression(@"^[0-9()-]\s")]
-        public string PhoneNum { get; set; }
+        public int PhoneNum { get; set; }
         [Required]
         [StringLength(75)]
         public string Adress { get; set; }
-        public ICollection<Orders> Orders { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }

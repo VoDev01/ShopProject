@@ -12,7 +12,7 @@ using ShopProject.Data;
 namespace ShopProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230325151956_InitialMigration")]
+    [Migration("20230326142645_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -91,25 +91,7 @@ namespace ShopProject.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("ShopProject.Models.OrderDetails", b =>
-                {
-                    b.Property<int>("OrdersID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CarsID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrdersID", "CarsID");
-
-                    b.HasIndex("CarsID");
-
-                    b.ToTable("OrderDetails");
-                });
-
-            modelBuilder.Entity("ShopProject.Models.Orders", b =>
+            modelBuilder.Entity("ShopProject.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -128,6 +110,26 @@ namespace ShopProject.Migrations
                     b.HasIndex("CustomerID");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("ShopProject.Models.OrderDetails", b =>
+                {
+                    b.Property<int>("OrdersID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CarsID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Amount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.HasKey("OrdersID", "CarsID");
+
+                    b.HasIndex("CarsID");
+
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("ShopProject.Models.People", b =>
@@ -153,12 +155,12 @@ namespace ShopProject.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("PhoneNum")
-                        .IsRequired()
+                    b.Property<int>("PhoneNum")
                         .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -191,26 +193,7 @@ namespace ShopProject.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ShopProject.Models.OrderDetails", b =>
-                {
-                    b.HasOne("ShopProject.Models.Car", "Cars")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("CarsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ShopProject.Models.Orders", "Orders")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrdersID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cars");
-
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("ShopProject.Models.Orders", b =>
+            modelBuilder.Entity("ShopProject.Models.Order", b =>
                 {
                     b.HasOne("ShopProject.Models.People", "People")
                         .WithMany("Orders")
@@ -221,12 +204,31 @@ namespace ShopProject.Migrations
                     b.Navigation("People");
                 });
 
+            modelBuilder.Entity("ShopProject.Models.OrderDetails", b =>
+                {
+                    b.HasOne("ShopProject.Models.Car", "Cars")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("CarsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShopProject.Models.Order", "Orders")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrdersID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cars");
+
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("ShopProject.Models.Car", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("ShopProject.Models.Orders", b =>
+            modelBuilder.Entity("ShopProject.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
                 });

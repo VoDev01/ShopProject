@@ -24,7 +24,7 @@
             <img src="@obj.Image" alt="@obj.Name" width="400" height="300">
             <p>@obj.Description</p>
             <p id="car_price">Цена: @obj.Price&#8381;</p>
-            <a class="btn" id="purchase_button" href="#">Добавить в корзину</a>
+            <a class="btn" id="purchase_button" asp-controller="Order" asp-action="AddPersonInfoToOrder" asp-route-carId="@obj.Id">Приобрести</a>
         </div>
     }
 </div>

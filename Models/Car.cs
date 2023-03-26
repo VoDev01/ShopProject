@@ -16,6 +16,7 @@ namespace ShopProject.Models
         public bool IsFavorite { get; set; }
         public bool IsAvailable { get; set; }
         public virtual Category Category { get; set; }
-        public ICollection<OrderDetails> OrderDetails { get; set; }
+        public List<Order> Orders { get; set; } = new List<Order>();
+        public List<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
     }
 }

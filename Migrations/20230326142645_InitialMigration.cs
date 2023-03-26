@@ -33,9 +33,9 @@ namespace ShopProject.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhoneNum = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    PhoneNum = table.Column<int>(type: "int", maxLength: 15, nullable: false),
                     Adress = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false)
                 },
                 constraints: table =>
@@ -94,7 +94,7 @@ namespace ShopProject.Migrations
                 {
                     OrdersID = table.Column<int>(type: "int", nullable: false),
                     CarsID = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false)
+                    Amount = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
                 {

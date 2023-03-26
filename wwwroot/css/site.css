@@ -25,3 +25,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+input.field {
+    width: 100%;
+}
