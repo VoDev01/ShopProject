@@ -1,6 +1,7 @@
 ﻿using ShopProject.Data;
 using Microsoft.AspNetCore.Mvc;
 using ShopProject.Models;
+using ShopProject.Models.Interfaces;
 
 namespace ShopProject.Controllers
 {

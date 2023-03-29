@@ -1,10 +1,16 @@
 using ShopProject.Data;
 using Microsoft.EntityFrameworkCore;
+using ShopProject.Models.Interfaces;
+using ShopProject.Models.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IAllCars, CarRepository>();
+builder.Services.AddTransient<ICarCategory, CarCategoryRepository>();
+builder.Services.AddTransient<IAllOrders, OrdersRepository>();
+builder.Services.AddTransient<IOrderDetails, OrderDetailsRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));

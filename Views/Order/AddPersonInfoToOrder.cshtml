@@ -1,29 +1,30 @@
-﻿@model Order 
+﻿@model People 
 @{
-    ViewData["Title"] = "PersonInfoForm";
+    ViewData["Title"] = "Оформление заказа";
 }
 
 <h1>Оформление заказа</h1>
-<form method="post">
+<form asp-antiforgery="true" asp-controller="Order" asp-action="AddPersonInfoToOrder" method="post">
     <div class="border p-3 mt-4">
         <div class="row">
             <h2 class="text-primary">Персональная информация</h2>
         </div>
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
         <div class="mb-3">
-            <label asp-for="People.Name">Имя</label>
-            <input class="field" asp-for="People.Name" />
-
-            <label asp-for="People.Surname">Фамилия</label>
-            <input class="field" asp-for="People.Surname" />
-
-            <label asp-for="People.Email">Email</label>
-            <input class="field" asp-for="People.Email"/>
-
-            <label asp-for="People.PhoneNum">Номер телефона</label>
-            <input class="field" asp-for="People.PhoneNum" />
-
-            <label asp-for="People.Adress">Адрес квартиры или дома</label>
-            <input class="field" asp-for="People.Adress" />
+            <label asp-for="Name">Имя</label>
+            <input class="field form-control" asp-for="Name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+            <br>
+            <label asp-for="Surname">Фамилия</label>
+            <input class="field form-control" asp-for="Surname" />
+            <span asp-validation-for="Surname" class="text-danger"></span>
+            <br>
+            <label asp-for="Email">Email</label>
+            <input class="field form-control" asp-for="Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+            <br>
+            <label asp-for="PhoneNum">Номер телефона</label>
+            <input class="field form-control" asp-for="PhoneNum" /> 
         </div>
         <button type="submit" class="btn btn-success" style="width: 150px;">К оплате</button>
         <a class="btn btn-secondary" asp-controller="Cars" asp-action="List" style="width: 200px">Обратно к каталогу</a>

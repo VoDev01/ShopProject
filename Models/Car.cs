@@ -8,9 +8,11 @@ namespace ShopProject.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [StringLength(50)]
         public string Name { get; set; }
-        [Range(0, 500)]
+        [StringLength(2000)]
         public string Description { get; set; }
+        [StringLength(250)]
         public string Image { get; set; }
         public int Price { get; set; } = 0;
         public bool IsFavorite { get; set; }

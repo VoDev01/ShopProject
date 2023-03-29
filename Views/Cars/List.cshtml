@@ -1,6 +1,6 @@
 ﻿@model List<Car> 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Каталог";
 }
 <style type="text/css">
     #purchase_button{
@@ -17,14 +17,14 @@
 <h1>Каталог машин</h1>
 
 <div class="row mt-5 mb-2">
-    @foreach(var obj in Model)
+    @foreach(var car in Model)
     {
         <div class="col-md-4 mb-3">
-            <h2>@obj.Name</h2>
-            <img src="@obj.Image" alt="@obj.Name" width="400" height="300">
-            <p>@obj.Description</p>
-            <p id="car_price">Цена: @obj.Price&#8381;</p>
-            <a class="btn" id="purchase_button" asp-controller="Order" asp-action="AddPersonInfoToOrder" asp-route-carId="@obj.Id">Приобрести</a>
+            <h2>@car.Name</h2>
+            <img src="@car.Image" alt="@car.Name" width="400" height="300">
+            <p>@car.Description</p>
+            <p id="car_price">Цена: @car.Price&#8381;</p>
+            <a class="btn" id="purchase_button" asp-controller="Order" asp-action="AddPersonInfoToOrder" asp-route-carId="@car.Id">Приобрести</a>
         </div>
     }
 </div>

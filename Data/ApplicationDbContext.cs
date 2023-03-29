@@ -48,16 +48,6 @@ namespace ShopProject.Data
                         j.ToTable("OrderDetails");
                     });
 
-            /*modelBuilder.Entity<OrderDetails>().HasKey(od => new { od.OrdersID, od.CarsID });
-            modelBuilder.Entity<OrderDetails>()
-                .HasOne<Order>(od => od.Orders)
-                .WithMany(o => o.OrderDetails)
-                .HasForeignKey(od => od.OrdersID);
-            modelBuilder.Entity<OrderDetails>()
-                .HasOne<Car>(od => od.Cars)
-                .WithMany(c => c.OrderDetails)
-                .HasForeignKey(od => od.CarsID);*/
-
             base.OnModelCreating(modelBuilder);
         }
     }

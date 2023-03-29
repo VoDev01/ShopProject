@@ -1,7 +1,22 @@
-﻿@{
-    ViewData["Title"] = "DisplayOrderInfo";
+﻿@model OrderDetails
+@{
+    ViewData["Title"] = "Информация о заказе";
 }
 
 <h1>Информация о заказе</h1>
 <p>Заказ успешно оформлен.</p>
+<table class="table table-bordered">
+    <tr>
+        <td>Номер заказа</td>
+        <td>@Model.Orders.Id</td>
+    </tr>
+    <tr>
+        <td>Название автомобиля</td>
+        <td>@Model.Cars.Name</td>
+    </tr>
+    <tr>
+        <td>Цена автомобиля</td>
+        <td>@Model.Price&#8381</td>
+    </tr>
+</table>
 <a class="btn btn-primary" asp-controller="Home" asp-action="Index" style="width: 200px">К главной странице</a>
