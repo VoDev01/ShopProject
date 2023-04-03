@@ -13,8 +13,19 @@
         border-color: #000;
         background-color: #e11;
     }
+    .catalogue-type{
+        color: #000;
+    }
+    .catalogue-type:hover{
+        color: #777;
+    }
 </style>
 <h1>Каталог машин</h1>
+
+<nav class="nav">
+    <a class="nav-link catalogue-type" href="/Cars/ListCars/int_comb_engine">ДВС</a>
+    <a class="nav-link catalogue-type" href="/Cars/ListCars/electric">Электро-двигатель</a>
+</nav>
 
 <div class="row mt-5 mb-2">
     @foreach(var car in Model)
@@ -24,7 +35,8 @@
             <img src="@car.Image" alt="@car.Name" width="400" height="300">
             <p>@car.Description</p>
             <p id="car_price">Цена: @car.Price&#8381;</p>
-            <a class="btn" id="purchase_button" asp-controller="Order" asp-action="AddPersonInfoToOrder" asp-route-carId="@car.Id">Приобрести</a>
+            <a class="btn" id="purchase_button" asp-controller="Order" asp-action="AddPersonInfoToOrder" 
+            asp-route-carName="@car.Name.ToLower().Replace(" ", "_")" asp-route-carId="@car.Id">Приобрести</a>
         </div>
     }
 </div>

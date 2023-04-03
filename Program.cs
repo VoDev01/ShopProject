@@ -1,16 +1,14 @@
 using ShopProject.Data;
 using Microsoft.EntityFrameworkCore;
-using ShopProject.Models.Interfaces;
-using ShopProject.Models.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IAllCars, CarRepository>();
-builder.Services.AddTransient<ICarCategory, CarCategoryRepository>();
-builder.Services.AddTransient<IAllOrders, OrdersRepository>();
-builder.Services.AddTransient<IOrderDetails, OrderDetailsRepository>();
+//builder.Services.AddTransient<IAllCars, CarRepository>();
+//builder.Services.AddTransient<ICarCategory, CarCategoryRepository>();
+//builder.Services.AddTransient<IAllOrders, OrdersRepository>();
+//builder.Services.AddTransient<IOrderDetails, OrderDetailsRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
@@ -35,5 +33,12 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(name: "cars",
+    pattern: "Cars/ListCars/{category?}");
+
+app.MapControllerRoute(name: "orders",
+    pattern: "Order/AddPersonInfoToOrder/{carName?}/{carId?}",
+    defaults: new { controller = "Order", action = "AddPersonInfoToOrder" });
 
 app.Run();

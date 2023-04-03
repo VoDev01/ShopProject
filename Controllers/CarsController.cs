@@ -1,7 +1,6 @@
 ﻿using ShopProject.Data;
 using Microsoft.AspNetCore.Mvc;
 using ShopProject.Models;
-using ShopProject.Models.Interfaces;
 
 namespace ShopProject.Controllers
 {
@@ -14,10 +13,24 @@ namespace ShopProject.Controllers
             this.db = db;
         }
 
-        public IActionResult List()
+        [Route("Cars/ListCars")]
+        [Route("Cars/ListCars/{category}")]
+        public IActionResult ListCars(string category)
         {
-            List<Car> objCarList = db.Cars.ToList();
-            return View(objCarList);
+            IEnumerable<Car> cars = null;
+            if(string.IsNullOrEmpty(category)) 
+            {
+                cars = db.Cars.OrderBy(x => x.Id);
+            }
+            else 
+            {
+                if (string.Equals("electric", category, StringComparison.OrdinalIgnoreCase))
+                    cars = db.Cars.Where(c => c.Category.Name.Equals("Электрокар")).OrderBy(c => c.Id);
+                else if (string.Equals("int_comb_engine", category, StringComparison.OrdinalIgnoreCase))
+                    cars = db.Cars.Where(c => c.Category.Name.Equals("Машина с ДВС")).OrderBy(c => c.Id);
+            }
+            List<Car> carObjList = cars.ToList();
+            return View(carObjList);
         }
     }
 }

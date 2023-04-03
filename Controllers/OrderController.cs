@@ -17,7 +17,6 @@ namespace ShopProject.Controllers
 
         [AcceptVerbs("Get", "Post")]
         [AllowAnonymous]
-        [HttpPost]
         public async Task<JsonResult> CheckEmail(string email)
         {
             var result = await db.Peoples.FirstOrDefaultAsync(m => m.Email == email);
@@ -46,7 +45,7 @@ namespace ShopProject.Controllers
         }
 
         //POST
-        [HttpPost("Order/AddPersonInfoToOrder/{carId:int}")]
+        [HttpPost("Order/AddPersonInfoToOrder/{carName}/{carId}")]
         [ValidateAntiForgeryToken]
         public IActionResult AddPersonInfoToOrder(People people, int carId)
         {
