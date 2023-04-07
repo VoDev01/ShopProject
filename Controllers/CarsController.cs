@@ -52,12 +52,17 @@ namespace ShopProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CarViewModel carVM) 
         {
-            Car car = carVM.Car;
-            var catList = await db.Categories.ToListAsync();
-            car.Category = catList[carVM.CategoryID-1];
-            db.Cars.Add(car);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            //if (ModelState.IsValid)
+            //{
+                Car car = carVM.Car;
+                var catList = await db.Categories.ToListAsync();
+                car.Category = catList[carVM.CategoryID - 1];
+                db.Cars.Add(car);
+                db.SaveChanges();
+                TempData["success"] = $"Машина была успешно создана!";
+                return RedirectToAction("Index");
+            //}
+            //return View(carVM);
         }
         public IActionResult Edit(int id)
         {
@@ -70,25 +75,31 @@ namespace ShopProject.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(CarViewModel carVM)
         {
-            Car car = carVM.Car;
-            var catList = db.Categories.ToList();
-            car.Category = catList[carVM.CategoryID - 1];
-            db.Cars.Update(car);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            //if (ModelState.IsValid)
+            //{
+                Car car = carVM.Car;
+                var catList = db.Categories.ToList();
+                car.Category = catList[carVM.CategoryID - 1];
+                db.Cars.Update(car);
+                db.SaveChanges();
+                TempData["success"] = $"Машина была успешно изменена!";
+                return RedirectToAction("Index");
+            //}
+            //return View(carVM);
         }
         public IActionResult Delete(int id)
         {
-            Car car = db.Cars.Include(c => c.Category).AsEnumerable().ElementAt(id-1);
+            Car car = db.Cars.Include(c => c.Category).AsEnumerable().ElementAt(id - 1);
             CarViewModel carVM = new CarViewModel { Car = car, CategoryID = car.Category.Id };
             return View(carVM);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(CarViewModel carViewModel)
+        public IActionResult Delete(CarViewModel carVM)
         {
-            db.Cars.Remove(carViewModel.Car);
+            db.Cars.Remove(carVM.Car);
             db.SaveChanges();
+            TempData["success"] = $"Машина была успешно удалена!";
             return RedirectToAction("Index");
         }
         public IActionResult Details(int id) 
