@@ -8,7 +8,15 @@
 <table class="table table-bordered">
     <tr>
         <td>Номер заказа</td>
-        <td>@Model.Orders.Id</td>
+        <td>
+            @{
+                var orderID = Model.Orders.Id;
+                string orderIDTemp = orderID.ToString();
+                string orderIDStr = "00000000";
+                orderIDStr = orderIDStr.Remove(orderIDStr.Length - orderIDTemp.Length).Insert(orderIDStr.Length - orderIDTemp.Length, orderIDTemp);
+            }
+            @orderIDStr
+        </td>
     </tr>
     <tr>
         <td>Название автомобиля</td>

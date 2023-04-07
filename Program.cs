@@ -34,7 +34,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapControllerRoute(name: "cars",
+app.MapControllerRoute(name: "categories",
     pattern: "Cars/ListCars/{category?}");
 
 app.MapControllerRoute(name: "orders",

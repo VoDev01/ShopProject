@@ -10,5 +10,8 @@ namespace ShopProject.Models.CarsCategories
         public string? Name { get; set; }
         [StringLength(250)]
         public string? Description { get; set; }
+        [Required]
+        [Range(1, 2, ErrorMessage = "Данной категории машин не существует")]
+        public int CarEngine { get; set; }
     }
 }

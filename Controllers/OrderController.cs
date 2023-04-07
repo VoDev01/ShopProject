@@ -45,7 +45,7 @@ namespace ShopProject.Controllers
         }
 
         //POST
-        [HttpPost("Order/AddPersonInfoToOrder/{carName}/{carId}")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddPersonInfoToOrder(People people, int carId)
         {

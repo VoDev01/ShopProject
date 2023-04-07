@@ -19,8 +19,8 @@ namespace ShopProject.Models
         [Required(ErrorMessage = "Введите электронную почту")]
         [MaxLength(50, ErrorMessage = "Длина email не должна превышать 50 символов")]
         [MinLength(10, ErrorMessage = "Длина email не менее 10 символов")]
-        //[DataType(DataType.EmailAddress, ErrorMessage = "Не соотвествует адресу электронной почты")]
-        [RegularExpression(@"^[a-zA-Z0-9_-]+\@[a-z-]+\.[a-z]{2,5}", ErrorMessage = "Не соотвествует email адресу")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Не соотвествует адресу электронной почты")]
+        //[RegularExpression(@"^[a-zA-Z0-9_-]+\@[a-z-]+\.[a-z]{2,5}", ErrorMessage = "Не соотвествует email адресу")]
         [Remote(action: "CheckEmail", controller: "Order", ErrorMessage = "Данный email уже кем-то используется")]
         public string Email { get; set; }
         [MaxLength(18, ErrorMessage = "Длина номера телефона не должна превышать 18 символов")]

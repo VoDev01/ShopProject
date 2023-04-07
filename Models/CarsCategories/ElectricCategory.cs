@@ -1,4 +1,5 @@
-﻿namespace ShopProject.Models.CarsCategories
+﻿
+namespace ShopProject.Models.CarsCategories
 {
     public class ElectricCategory : Category
     {
@@ -6,6 +7,7 @@
         {
             Name = "Электрический автомобиль";
             Description = "Автомобиль с электрическим двигателем";
+            CarEngine = 2;
         }
     }
 }

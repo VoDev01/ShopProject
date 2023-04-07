@@ -20,9 +20,10 @@ namespace ShopProject.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>()
-                .HasDiscriminator<string>("CarEngine")
-                .HasValue<ICECategory>("Internal Combustion Engine")
-                .HasValue<ElectricCategory>("Electric Engine");
+                .HasDiscriminator<int>("CarEngine")
+                .HasValue<DefaultCategory>(0)
+                .HasValue<ICECategory>(1)
+                .HasValue<ElectricCategory>(2);
 
             modelBuilder.Entity<Order>()
                 .HasOne<People>(p => p.People)
