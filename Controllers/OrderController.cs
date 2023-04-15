@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopProject.Data;
 using ShopProject.Models;
+using ShopProject.ViewModels;
 
 namespace ShopProject.Controllers
 {
@@ -39,26 +40,27 @@ namespace ShopProject.Controllers
         }
 
         //GET
-        public IActionResult AddPersonInfoToOrder()
+        public IActionResult AddPersonInfoToOrder(int carId)
         {
-            return View();
+            PeopleViewModel peopleVM = new PeopleViewModel();
+            peopleVM.CarId = carId;
+            return View(peopleVM);
         }
 
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddPersonInfoToOrder(People people, int carId)
+        public IActionResult AddPersonInfoToOrder(PeopleViewModel peopleVM)
         {
             if (ModelState.IsValid)
             {
-                var car = db.Cars.AsEnumerable().ElementAt(carId-1);
-                var order = new Order { People = people };
-                order.Cars.Add(car);
+                var car = db.Cars.AsEnumerable().Last();
+                Order order = new Order() { People = peopleVM.People };
                 order.OrderDetails.Add(new OrderDetails() { Orders = order, Cars = car, Amount = 1, Price = car.Price });
-                people.Orders.Add(order);
-                db.Peoples.Add(people);
+                order.People.Orders.Add(order);
+                db.Peoples.Add(order.People);
                 db.SaveChanges();
-                return RedirectToAction("DisplayOrderInfo", "Order", new { orderId = order.Id, carId });
+                return RedirectToAction("DisplayOrderInfo", "Order", new { orderId = order.Id, peopleVM.CarId });
             }
             else
                 return View();
