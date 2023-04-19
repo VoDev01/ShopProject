@@ -13,7 +13,11 @@ namespace ShopProject.Models.Repository
             this.db = db;
         }
         public IEnumerable<T> GetAll() => db.Set<T>();
+        public IEnumerable<T> GetAllWith(Expression<Func<T, bool>> filter) => db.Set<T>().Where(filter);
+        public IEnumerable<T> GetAllWith(Expression<Func<T, bool>> filter, string children) => db.Set<T>().Include(children).Where(filter);
+        public IEnumerable<T> GetAllWith(string children) => db.Set<T>().Include(children);
         public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression) => db.Set<T>().Where(expression);
+        public T GetByID(int id) => db.Set<T>().ElementAt(id);
         public void Update(T entity) => db.Set<T>().Update(entity);
         public void Create(T entity) => db.Set<T>().Add(entity);
         public void Delete(T entity) => db.Set<T>().Remove(entity);

@@ -4,16 +4,19 @@ using ShopProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShopProject.ViewModels;
+using ShopProject.Models.Interfaces;
 
 namespace ShopProject.Controllers
 {
     public class CarsController : Controller
     {
-        private readonly ApplicationDbContext db;
+        private readonly IAllCars allCars;
+        private readonly ICarCategory carCategory;
 
-        public CarsController(ApplicationDbContext db)
+        public CarsController(IAllCars allCars, ICarCategory carCategory)
         {
-            this.db = db;
+            this.allCars = allCars;
+            this.carCategory = carCategory;
         }
 
         [Route("Cars/ListCars")]
@@ -23,42 +26,42 @@ namespace ShopProject.Controllers
             IEnumerable<Car> cars = null;
             if(string.IsNullOrEmpty(category)) 
             {
-                cars = db.Cars.OrderBy(x => x.Id);
+                cars = allCars.GetAll().OrderBy(x => x.Id);
             }
             else 
             {
                 if (string.Equals("electric", category, StringComparison.OrdinalIgnoreCase))
-                    cars = db.Cars.Where(c => c.Category.Name.Equals("Электрокар")).OrderBy(c => c.Id);
+                    cars = allCars.GetAll().Where(c => c.Category.Name.Equals("Электрокар")).OrderBy(c => c.Id);
                 else if (string.Equals("int_comb_engine", category, StringComparison.OrdinalIgnoreCase))
-                    cars = db.Cars.Where(c => c.Category.Name.Equals("Машина с ДВС")).OrderBy(c => c.Id);
+                    cars = allCars.GetAll().Where(c => c.Category.Name.Equals("Машина с ДВС")).OrderBy(c => c.Id);
             }
             List<Car> carObjList = cars.ToList();
             return View(carObjList);
         }
         [Route("Cars/Index")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            IEnumerable<Car> cars = await db.Cars.Include(c => c.Category).ToListAsync();
+            IEnumerable<Car> cars = allCars.GetAllWith("Category");
             return View(cars);
         }
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             var carViewModel = new CarViewModel { Car = new Car() };
-            var categories = await db.Categories.ToListAsync();
+            var categories = carCategory.GetAll();
             ViewBag.Categories =  new SelectList(categories, "Id", "Name");
             return View(carViewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CarViewModel carVM) 
+        public IActionResult Create(CarViewModel carVM) 
         {
             //if (ModelState.IsValid)
             //{
                 Car car = carVM.Car;
-                var catList = await db.Categories.ToListAsync();
-                car.Category = catList[carVM.CategoryID - 1];
-                db.Cars.Add(car);
-                db.SaveChanges();
+                var catList = carCategory.GetAll();
+                car.Category = catList.ElementAt(carVM.CategoryID - 1);
+                allCars.Create(car);
+                allCars.Save();
                 TempData["success"] = $"Машина была успешно создана!";
                 return RedirectToAction("Index");
             //}
@@ -66,8 +69,8 @@ namespace ShopProject.Controllers
         }
         public IActionResult Edit(int id)
         {
-            var carVM = new CarViewModel { Car = db.Cars.Find(id) };
-            var categories = db.Categories.ToList();
+            var carVM = new CarViewModel { Car = allCars.GetByID(id) };
+            var categories = carCategory.GetAll();
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View(carVM);
         }
@@ -78,10 +81,10 @@ namespace ShopProject.Controllers
             //if (ModelState.IsValid)
             //{
                 Car car = carVM.Car;
-                var catList = db.Categories.ToList();
-                car.Category = catList[carVM.CategoryID - 1];
-                db.Cars.Update(car);
-                db.SaveChanges();
+                var catList = carCategory.GetAll();
+                car.Category = catList.ElementAt(carVM.CategoryID - 1);
+                allCars.Update(car);
+                allCars.Save();
                 TempData["success"] = $"Машина была успешно изменена!";
                 return RedirectToAction("Index");
             //}
@@ -89,7 +92,7 @@ namespace ShopProject.Controllers
         }
         public IActionResult Delete(int id)
         {
-            Car car = db.Cars.Include(c => c.Category).AsEnumerable().ElementAt(id - 1);
+            Car car = allCars.GetAllWith("Category").AsEnumerable().ElementAt(id - 1);
             CarViewModel carVM = new CarViewModel { Car = car, CategoryID = car.Category.Id };
             return View(carVM);
         }
@@ -97,14 +100,14 @@ namespace ShopProject.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(CarViewModel carVM)
         {
-            db.Cars.Remove(carVM.Car);
-            db.SaveChanges();
+            allCars.Delete(carVM.Car);
+            allCars.Save();
             TempData["success"] = $"Машина была успешно удалена!";
             return RedirectToAction("Index");
         }
         public IActionResult Details(int id) 
         {
-            Car car = db.Cars.Include(c => c.Category).AsEnumerable().ElementAt(id-1);
+            Car car = allCars.GetAllWith("Category").AsEnumerable().ElementAt(id-1);
             CarViewModel carVM = new CarViewModel { Car = car, CategoryID = car.Category.Id };
             return View(carVM);
         }
