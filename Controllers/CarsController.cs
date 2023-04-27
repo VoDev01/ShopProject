@@ -31,9 +31,9 @@ namespace ShopProject.Controllers
             else 
             {
                 if (string.Equals("electric", category, StringComparison.OrdinalIgnoreCase))
-                    cars = allCars.GetAll().Where(c => c.Category.Name.Equals("Электрокар")).OrderBy(c => c.Id);
+                    cars = allCars.GetAllWith(c => c.Category.Name.Equals("Электрокар")).OrderBy(c => c.Id);
                 else if (string.Equals("int_comb_engine", category, StringComparison.OrdinalIgnoreCase))
-                    cars = allCars.GetAll().Where(c => c.Category.Name.Equals("Машина с ДВС")).OrderBy(c => c.Id);
+                    cars = allCars.GetAllWith(c => c.Category.Name.Equals("Машина с ДВС")).OrderBy(c => c.Id);
             }
             List<Car> carObjList = cars.ToList();
             return View(carObjList);
