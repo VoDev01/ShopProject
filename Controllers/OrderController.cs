@@ -21,15 +21,11 @@ namespace ShopProject.Controllers
             this.allOrders = allOrders;
         }
 
-        [AcceptVerbs("Get", "Post")]
         [AllowAnonymous]
-        public JsonResult CheckEmail(string email)
+        public IActionResult CheckEmail(PeopleViewModel peopleVM)
         {
-            var result = people.GetAllWith(p => p.Email == email);
-            if (result == null)
-               return Json(true);
-            else
-                return Json(false);
+            var userEmail = people.GetAllWith(p => p.Email == peopleVM.People.Email);
+            return Json(userEmail.Count() == 0);
         }
 
         public IActionResult DisplayOrderInfo(int orderId, int carId)
@@ -57,6 +53,8 @@ namespace ShopProject.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddPersonInfoToOrder(PeopleViewModel peopleVM)
         {
+            //if (CheckEmail(peopleVM.People.Email) != Json(true))
+            //   return View();
             if (ModelState.IsValid)
             {
                 var car = allCars.GetAll().ElementAt(peopleVM.CarId - 1);

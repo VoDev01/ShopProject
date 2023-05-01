@@ -2,6 +2,9 @@
 @{
     ViewData["Title"] = "Оформление заказа";
 }
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
 
 <h1>Оформление заказа</h1>
 <form asp-antiforgery="true" asp-controller="Order" asp-action="AddPersonInfoToOrder" method="post">
